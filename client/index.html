@@ -7,14 +7,32 @@
 
     <!-- dependencies -->
     <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
     <!-- your scripts -->
+    <script src="scripts/jquery.js"></script>
     <script src="scripts/config.js"></script>
     <script src="scripts/app.js"></script>
   </head>
   <body>
+
     <div id="main">
-      <h1>chatterbox</h1>
+
+      <h1 class="header">chatterbox</h1>
+      <h3 class='welcome'> </h3>
       <!-- Your HTML goes here! -->
+      <div id="roomSelect"></div>
+
+
+      <div id="chats"></div>
+
+      <div id="userInputs">
+        <input class='inputMsg' type='text' placeholder="Use the phrase, ' I feel... '"> </input>
+        <button class='addMsg'>Send</button>
+      </div>
+
     </div>
+
+
+
   </body>
 </html>
