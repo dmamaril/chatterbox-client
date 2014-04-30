@@ -1,13 +1,15 @@
 // YOUR CODE HERE:
 var app = {
   rooms: {},
-  friends: {},
-  messages: [],
-  user: window.location.search.slice(10),
+  friends: {}, 
+  user: window.location.search.slice(10)
 };
 
 app.init = function () {
-
+  setInterval(function () {
+    app.fetch();
+    console.log('Retrieving new messages...')
+  }, 5000);
 };
 
 app.send = function (message) {
@@ -62,7 +64,13 @@ app.currentRoom;
 app.addRoom = function (roomName) {
   _.each(app.rooms, function (element, key) {
     // console.log(key);
-    $('#roomSelect').append('<button value="' + key + '" class="roomButtons">' + key + '</button>')
+
+    if (key.indexOf('<') === -1 && key.indexOf('.') === -1 && key.indexOf(' ') === -1 && key.indexOf('!') === -1 && key.indexOf("'")) {
+      if ($('#roomSelect').find('.' + key).length === 0) {
+         $('#roomSelect').append('<button value="' + key + '" class="roomButtons ' + key + '">' + key + '</button>')  
+      }
+    }
+
   });
 
   $('.roomButtons').on('click', function () {
@@ -97,17 +105,18 @@ app.spread = function (response) {
     if (roomname === '' || roomname === 'undefined' || roomname === null) {
       roomname = 'lobby';
       if (app.rooms.hasOwnProperty(roomname)) {
-        app.rooms[roomname].unshift({username: message[i]['username'], text: message[i]['text'], createdAt: message[i]['createdAt'], objectId: message[i]['objectId']});
+        app.rooms[roomname].unshift({username: message[i]['username'], text: message[i]['text'], createdAt: message[i]['createdAt'], objectId: message[i]['objectId'], set: false});
       } else {
-        app.rooms[roomname] = [{username: message[i]['username'], text: message[i]['text'], createdAt: message[i]['createdAt'], objectId: message[i]['objectId']}]
+        app.rooms[roomname] = [{username: message[i]['username'], text: message[i]['text'], createdAt: message[i]['createdAt'], objectId: message[i]['objectId'], set: false}]
       }
     } else {
       if (app.rooms.hasOwnProperty(roomname)) {
-        app.rooms[roomname].unshift({username: message[i]['username'], text: message[i]['text'], createdAt: message[i]['createdAt'], objectId: message[i]['objectId']});
+        app.rooms[roomname].unshift({username: message[i]['username'], text: message[i]['text'], createdAt: message[i]['createdAt'], objectId: message[i]['objectId'], set: false});
       } else {
-        app.rooms[roomname] = [{username: message[i]['username'], text: message[i]['text'], createdAt: message[i]['createdAt'], objectId: message[i]['objectId']}]
+        app.rooms[roomname] = [{username: message[i]['username'], text: message[i]['text'], createdAt: message[i]['createdAt'], objectId: message[i]['objectId'], set: false}]
       }
     }
   }
   app.addRoom();
+  app.init();
 }
